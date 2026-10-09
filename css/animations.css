@@ -1,0 +1,871 @@
+/* ================= FRAME X MOTION SYSTEM ================= */
+/* All rules are scoped to .fx-* classes. The static look comes first; motion
+   lives only inside the no-preference query. */
+
+/* ---- Hero visual: floating frame stack ---- */
+.fx-visual {
+  --fx-gold: 225, 190, 127;
+  --fx-wine: 128, 0, 64;
+  position: absolute;
+  z-index: -1; /* behind the hero text, above the hero glow */
+  top: calc(50% + var(--header-height) / 2);
+  right: calc((100% - min(100% - 2 * var(--gutter), var(--container-width))) / 2);
+  width: clamp(22rem, 36vw, 36rem);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  perspective: 1600px;
+  perspective-origin: 30% 50%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fx-visual__glow {
+  position: absolute;
+  inset: -15%;
+  background: radial-gradient(circle at 55% 50%, rgba(var(--fx-wine), 0.5), transparent 62%);
+  opacity: 0.7;
+}
+
+/* 3D scene: tilt (mouse) > float (idle) > layers */
+.fx-tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(6deg + var(--fx-py, 0) * -3deg))
+             rotateY(calc(16deg + var(--fx-px, 0) * 5deg))
+             rotateZ(-3deg);
+  transition: transform 0.9s var(--ease-out);
+}
+.fx-float { position: absolute; inset: 0; transform-style: preserve-3d; }
+
+.fx-layer {
+  position: absolute;
+  width: 74%;
+  aspect-ratio: 16 / 10;
+  opacity: var(--o);
+  transform: translateZ(var(--z));
+}
+.fx-layer--back  { --o: 0.45; --z: -180px; left: 24%; top: 6%; }
+.fx-layer--mid   { --o: 0.7;  --z: -90px;  left: 14%; top: 22%; }
+.fx-layer--front { --o: 1;    --z: 0px;    left: 4%;  top: 38%; }
+
+/* Cards */
+.fx-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  background: linear-gradient(150deg, rgba(20, 34, 34, 0.92), rgba(8, 14, 14, 0.92));
+  box-shadow: inset 0 0 0 1px rgba(var(--fx-gold), 0.22),
+              0 2.5rem 5rem rgba(0, 0, 0, 0.55);
+}
+.fx-card__line {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 32%;
+  height: 2px;
+  background: rgba(var(--fx-gold), 0.4);
+}
+.fx-card__line--short { top: 2.25rem; width: 18%; opacity: 0.6; }
+
+/* Front card: opaque face with a rotating light along its edge */
+.fx-card--front {
+  background: none;
+  box-shadow: 0 2.5rem 5rem rgba(0, 0, 0, 0.6), 0 0 6rem rgba(var(--fx-wine), 0.3);
+}
+.fx-card__edge {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: rgba(var(--fx-gold), 0.22);
+}
+.fx-card__edge::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(from 0deg, transparent 0 70%, rgba(var(--fx-gold), 0.95) 92%, transparent 100%);
+}
+.fx-card__face {
+  position: absolute;
+  inset: 1px;
+  overflow: hidden;
+  border-radius: calc(0.75rem - 1px);
+  background:
+    radial-gradient(120% 100% at 85% 0%, rgba(var(--fx-wine), 0.5), transparent 60%),
+    linear-gradient(160deg, #101c1c, #070e0e);
+}
+
+/* Viewfinder corners */
+.fx-card__corner {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: 0 solid rgba(var(--fx-gold), 0.7);
+}
+.fx-card__corner--tl { top: 1rem; left: 1rem; border-top-width: 1px; border-left-width: 1px; }
+.fx-card__corner--tr { top: 1rem; right: 1rem; border-top-width: 1px; border-right-width: 1px; }
+.fx-card__corner--bl { bottom: 1rem; left: 1rem; border-bottom-width: 1px; border-left-width: 1px; }
+.fx-card__corner--br { bottom: 1rem; right: 1rem; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* Play ring */
+.fx-card__play {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  translate: -50% -50%;
+  border: 1px solid rgba(var(--fx-gold), 0.7);
+  border-radius: 50%;
+}
+.fx-card__play::before {
+  content: "";
+  margin-left: 0.2rem;
+  border-style: solid;
+  border-width: 0.55rem 0 0.55rem 0.9rem;
+  border-color: transparent transparent transparent rgba(var(--fx-gold), 0.95);
+}
+.fx-card__play::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid rgba(var(--fx-gold), 0.55);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+/* Progress line */
+.fx-card__track {
+  position: absolute;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+.fx-card__bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(var(--fx-gold), 0.2), rgb(var(--fx-gold)));
+  transform: scaleX(0.35);
+  transform-origin: left;
+}
+
+/* Light sheen (parked off-card until animated) */
+.fx-card__sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.09) 50%, transparent 58%);
+  translate: -120% 0;
+}
+
+/* Dust specks */
+.fx-dust {
+  position: absolute;
+  top: var(--t);
+  left: var(--l);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(var(--fx-gold), 0.8);
+  opacity: 0;
+}
+
+/* Tablet and mobile: hidden, so the existing layout is untouched */
+@media (max-width: 960px) {
+  .fx-visual { display: none; }
+}
+
+/* ---- Motion (skipped entirely when the user prefers reduced motion) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .fx-tilt { will-change: transform; }
+  .fx-float { animation: fx-float 10s ease-in-out infinite; will-change: transform; }
+  .fx-visual__glow { animation: fx-glow 8s ease-in-out infinite; }
+
+  .fx-layer { animation: fx-layer-in 1.4s var(--ease-out) var(--delay, 0s) both; }
+  .fx-layer--back  { --delay: 0.2s; }
+  .fx-layer--mid   { --delay: 0.45s; }
+  .fx-layer--front { --delay: 0.7s; }
+
+  .fx-layer--back .fx-card  { animation: fx-drift 13s ease-in-out infinite alternate; }
+  .fx-layer--mid .fx-card   { animation: fx-drift 11s ease-in-out -4s infinite alternate-reverse; }
+
+  .fx-card__edge::before { animation: fx-turn 7s linear infinite; }
+  .fx-card__play::after  { animation: fx-ring 3.2s ease-out infinite; }
+  .fx-card__bar          { animation: fx-bar 9s ease-in-out infinite; }
+  .fx-card__sheen        { animation: fx-sheen 9s ease-in-out 2s infinite; }
+  .fx-card__corner       { animation: fx-pulse 6s ease-in-out infinite; }
+  .fx-dust               { animation: fx-dust var(--d) ease-in-out var(--delay) infinite; }
+
+  /* Reuse the existing hero off-screen flag so nothing runs unseen */
+  .hero.is-offscreen .fx-visual,
+  .hero.is-offscreen .fx-visual *,
+  .hero.is-offscreen .fx-visual *::before,
+  .hero.is-offscreen .fx-visual *::after { animation-play-state: paused; }
+}
+
+@keyframes fx-layer-in {
+  from { opacity: 0; translate: 3.5rem 1rem; }
+  to   { opacity: var(--o); translate: 0 0; }
+}
+@keyframes fx-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+@keyframes fx-drift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(10px, -8px); }
+}
+@keyframes fx-glow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.1); }
+}
+@keyframes fx-turn { to { rotate: 360deg; } }
+@keyframes fx-ring {
+  0%   { opacity: 0.6; scale: 1; }
+  100% { opacity: 0; scale: 1.7; }
+}
+@keyframes fx-bar {
+  0%   { transform: scaleX(0); }
+  85%, 100% { transform: scaleX(1); }
+}
+@keyframes fx-sheen {
+  0%   { translate: -120% 0; }
+  40%, 100% { translate: 120% 0; }
+}
+@keyframes fx-pulse { 0%, 100% { opacity: 0.45; } 50% { opacity: 0.9; } }
+@keyframes fx-dust {
+  0%   { opacity: 0; transform: translateY(0); }
+  20%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-4.5rem); }
+}
+
+
+/* ---- Phase 2: Funnel journey line + avatar focus ---- */
+
+/* Which stage is which (used for the staggered timing) */
+.fx-pipeline .pipeline__stage:nth-child(1) { --fx-i: 0; }
+.fx-pipeline .pipeline__stage:nth-child(2) { --fx-i: 1; }
+.fx-pipeline .pipeline__stage:nth-child(3) { --fx-i: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fx-pipeline .pipeline__stage { position: relative; }
+
+  /* Gold line segment along the top of each stage */
+  .fx-pipeline .pipeline__stage::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(225, 190, 127, 0.4), var(--color-gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s linear calc(var(--fx-i) * 0.8s);
+  }
+
+  /* Diamond marker where each stage starts */
+  .fx-pipeline .pipeline__stage::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: var(--color-background);
+    border: 1px solid var(--color-gold);
+    transform: translate(-50%, -50%) rotate(45deg) scale(0);
+    transition: transform 0.5s var(--ease-out) calc(var(--fx-i) * 0.8s);
+  }
+
+  /* TOFU / MOFU / BOFU labels brighten as the line arrives */
+  .fx-pipeline .pipeline__code {
+    opacity: 0.35;
+    transition: opacity 0.9s var(--ease-out) calc(var(--fx-i) * 0.8s + 0.15s);
+  }
+
+  .fx-pipeline.is-in .pipeline__stage::after  { transform: scaleX(1); }
+  .fx-pipeline.is-in .pipeline__stage::before { transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+  .fx-pipeline.is-in .pipeline__code          { opacity: 1; }
+}
+
+/* Stacked layout (tablet/mobile): the line runs down the left edge instead */
+@media (max-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .fx-pipeline .pipeline__stage::after {
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(225, 190, 127, 0.4), var(--color-gold));
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  .fx-pipeline.is-in .pipeline__stage::after { transform: scaleY(1); }
+}
+
+/* Avatars: focus the hovered card, dim the rest (mouse devices only) */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .fx-avatars .avatar-card {
+    position: relative;
+    /* same reveal timing as before, plus scale and glow for hover */
+    transition:
+      opacity 0.8s var(--ease-out) var(--reveal-delay, 0ms),
+      translate 0.8s var(--ease-out) var(--reveal-delay, 0ms),
+      transform var(--duration-base) var(--ease-out),
+      scale var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out);
+  }
+  .fx-avatars .avatar-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-background);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease-out);
+  }
+  .fx-avatars:has(.avatar-card:hover) .avatar-card:not(:hover)::after { opacity: 0.55; }
+  .fx-avatars .avatar-card:hover {
+    scale: 1.03;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.5), 0 0 2.5rem rgba(128, 0, 64, 0.35);
+  }
+}
+
+/* ---- Phase 2b: Avatar cards converge from different directions ---- */
+.fx-system { overflow-x: clip; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fx-avatars { --fx-arrive: cubic-bezier(0.22, 1, 0.36, 1); }
+  .fx-avatars .avatar-card { position: relative; }
+
+  /* Starting positions and the timing of the arrival */
+  .js .fx-avatars .avatar-card[data-reveal] {
+    scale: 0.97;
+    transition:
+      opacity 0.3s ease-out calc(var(--reveal-delay, 0ms) * 0.4),
+      translate 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4),
+      rotate 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4),
+      scale 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4);
+  }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(1) { translate: -2.5rem 0;     rotate: -1.5deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(2) { translate: -1rem 2.25rem; rotate: 1deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(3) { translate: 1rem 2.25rem;  rotate: -1deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(4) { translate: 2.5rem 0;      rotate: 1.5deg; }
+
+  /* 2-column and 1-column layouts: alternate left and right, shorter distance */
+  @media (max-width: 1024px) {
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(odd)  { translate: -1.25rem 1.25rem; rotate: -1deg; }
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(even) { translate: 1.25rem 1.25rem;  rotate: 1deg; }
+  }
+  @media (max-width: 480px) {
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(odd)  { translate: -0.75rem 1rem; }
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(even) { translate: 0.75rem 1rem; }
+  }
+
+  /* Settled position (must stay below the rules above) */
+  .js .fx-avatars .avatar-card[data-reveal].is-visible {
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+
+  /* Gold line that draws across the top of each card as it lands */
+  .fx-avatars .avatar-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-gold), transparent);
+    transform-origin: left;
+  }
+  .js .fx-avatars .avatar-card[data-reveal]::before {
+    transform: scaleX(0);
+    transition: transform 0.4s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4 + 0.1s);
+  }
+  .js .fx-avatars .avatar-card[data-reveal].is-visible::before { transform: scaleX(1); }
+}
+
+/* ---- Phase 2b: Avatar cards converge from different directions ---- */
+.fx-system { overflow-x: clip; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fx-avatars { --fx-arrive: cubic-bezier(0.22, 1, 0.36, 1); }
+  .fx-avatars .avatar-card { position: relative; }
+
+  /* Starting positions and the timing of the arrival */
+  .js .fx-avatars .avatar-card[data-reveal] {
+    scale: 0.97;
+    transition:
+      opacity 0.3s ease-out calc(var(--reveal-delay, 0ms) * 0.4),
+      translate 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4),
+      rotate 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4),
+      scale 0.45s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4);
+  }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(1) { translate: -2.5rem 0;     rotate: -1.5deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(2) { translate: -1rem 2.25rem; rotate: 1deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(3) { translate: 1rem 2.25rem;  rotate: -1deg; }
+  .js .fx-avatars .avatar-card[data-reveal]:nth-child(4) { translate: 2.5rem 0;      rotate: 1.5deg; }
+
+  /* 2-column and 1-column layouts: alternate left and right, shorter distance */
+  @media (max-width: 1024px) {
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(odd)  { translate: -1.25rem 1.25rem; rotate: -1deg; }
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(even) { translate: 1.25rem 1.25rem;  rotate: 1deg; }
+  }
+  @media (max-width: 480px) {
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(odd)  { translate: -0.75rem 1rem; }
+    .js .fx-avatars .avatar-card[data-reveal]:nth-child(even) { translate: 0.75rem 1rem; }
+  }
+
+  /* Settled position (must stay below the rules above) */
+  .js .fx-avatars .avatar-card[data-reveal].is-visible {
+    translate: 0 0;
+    rotate: 0deg;
+    scale: 1;
+  }
+
+  /* Gold line that draws across the top of each card as it lands */
+  .fx-avatars .avatar-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-gold), transparent);
+    transform-origin: left;
+  }
+  .js .fx-avatars .avatar-card[data-reveal]::before {
+    transform: scaleX(0);
+    transition: transform 0.4s var(--fx-arrive) calc(var(--reveal-delay, 0ms) * 0.4 + 0.1s);
+  }
+  .js .fx-avatars .avatar-card[data-reveal].is-visible::before { transform: scaleX(1); }
+}
+
+/* ---- Phase 3: VSL frame + Evidence cards ---- */
+
+.fx-evidence .placeholder-card:nth-child(1) { --fx-i: 0; }
+.fx-evidence .placeholder-card:nth-child(2) { --fx-i: 1; }
+.fx-evidence .placeholder-card:nth-child(3) { --fx-i: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* VSL: camera-style corner brackets lock onto the video area */
+  .fx-video { position: relative; }
+  .fx-video::before {
+    content: "";
+    position: absolute;
+    inset: 0.75rem;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(var(--color-gold), var(--color-gold)) top left / 1.5rem 1px no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) top left / 1px 1.5rem no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) top right / 1.5rem 1px no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) top right / 1px 1.5rem no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) bottom left / 1.5rem 1px no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) bottom left / 1px 1.5rem no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) bottom right / 1.5rem 1px no-repeat,
+      linear-gradient(var(--color-gold), var(--color-gold)) bottom right / 1px 1.5rem no-repeat;
+  }
+  .fx-video.is-in::before {
+    animation: fx-frame-lock 0.5s var(--ease-out) both,
+               fx-frame-pulse 5s ease-in-out 0.5s infinite;
+  }
+
+  /* VSL: soft ring pulse on the play button */
+  .fx-video .video-slot__play { position: relative; }
+  .fx-video .video-slot__play::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border: 1px solid rgba(225, 190, 127, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+  }
+  .fx-video.is-in .video-slot__play::after { animation: fx-play-ring 3.2s ease-out 0.6s infinite; }
+
+  /* Evidence: box first, then label, then a slow shine */
+  .fx-ready .fx-evidence .placeholder-card__box {
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    scale: 0.97;
+    transition:
+      opacity 0.45s var(--ease-out) calc(var(--fx-i) * 90ms + 200ms),
+      scale 0.45s var(--ease-out) calc(var(--fx-i) * 90ms + 200ms),
+      border-color var(--duration-base) var(--ease-out);
+  }
+  .fx-ready .fx-evidence .placeholder-card .eyebrow {
+    opacity: 0;
+    translate: 0 0.5rem;
+    transition:
+      opacity 0.4s var(--ease-out) calc(var(--fx-i) * 90ms + 350ms),
+      translate 0.4s var(--ease-out) calc(var(--fx-i) * 90ms + 350ms),
+      color var(--duration-base) var(--ease-out);
+  }
+  .fx-ready .fx-evidence.is-in .placeholder-card__box { opacity: 1; scale: 1; }
+  .fx-ready .fx-evidence.is-in .placeholder-card .eyebrow { opacity: 1; translate: 0 0; }
+
+  .fx-ready .fx-evidence .placeholder-card__box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(225, 190, 127, 0.1) 50%, transparent 60%);
+    translate: -120% 0;
+  }
+  .fx-ready .fx-evidence.is-in .placeholder-card__box::after {
+    animation: fx-box-sheen 6s ease-in-out calc(var(--fx-i) * 0.8s + 1s) infinite;
+  }
+}
+
+/* Evidence hover (mouse devices only) */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .fx-evidence .placeholder-card:hover .placeholder-card__box { border-color: rgba(225, 190, 127, 0.6); }
+  .fx-evidence .placeholder-card:hover .eyebrow { color: var(--color-gold); }
+}
+
+@keyframes fx-frame-lock {
+  from { opacity: 0; scale: 1.04; }
+  to   { opacity: 0.8; scale: 1; }
+}
+@keyframes fx-frame-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.9; } }
+@keyframes fx-play-ring {
+  0%   { opacity: 0.6; scale: 1; }
+  100% { opacity: 0; scale: 1.6; }
+}
+@keyframes fx-box-sheen {
+  0%   { translate: -120% 0; }
+  45%, 100% { translate: 120% 0; }
+}
+
+/* ---- Phase 4: Roadmap marker + milestones ---- */
+.roadmap__item:nth-child(1) { --fx-i: 0; }
+.roadmap__item:nth-child(2) { --fx-i: 1; }
+.roadmap__item:nth-child(3) { --fx-i: 2; }
+.roadmap__item:nth-child(4) { --fx-i: 3; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Make the line draw at an even speed, so milestones light exactly as the marker passes */
+  .js .roadmap {
+    transition-duration: 1.6s;
+    transition-timing-function: linear;
+  }
+
+  /* Glowing marker at the tip of the line (created by JavaScript) */
+  .fx-roadmap__dot {
+    position: absolute;
+    top: 0.75rem;
+    left: calc(var(--roadmap-progress) * 100%);
+    z-index: 1;
+    width: 0.7rem;
+    height: 0.7rem;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: var(--color-gold);
+    box-shadow: 0 0 0 4px rgba(225, 190, 127, 0.18), 0 0 1.25rem rgba(225, 190, 127, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+  }
+  .roadmap.is-drawn .fx-roadmap__dot {
+    opacity: 1;
+    animation: fx-dot-pulse 2.4s ease-in-out 1.6s infinite;
+  }
+
+  /* Milestone diamonds: dim until the marker reaches them */
+  .js .roadmap__item::before {
+    border-color: rgba(225, 190, 127, 0.3);
+    scale: 0.7;
+    transition:
+      border-color 0.4s ease-out calc(var(--fx-i) * 0.41s + 0.05s),
+      scale 0.4s var(--ease-out) calc(var(--fx-i) * 0.41s + 0.05s),
+      box-shadow 0.5s ease-out calc(var(--fx-i) * 0.41s + 0.05s);
+  }
+  .roadmap.is-drawn .roadmap__item::before {
+    border-color: var(--color-gold);
+    scale: 1;
+    box-shadow: 0 0 0.9rem rgba(225, 190, 127, 0.6);
+  }
+
+  /* Final phase: soft breathing glow once the journey is complete */
+  .roadmap__item--final::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: 0 0 3rem rgba(128, 0, 64, 0.6), 0 0 1.5rem rgba(225, 190, 127, 0.2);
+    opacity: 0;
+  }
+  .roadmap.is-drawn .roadmap__item--final::after {
+    animation: fx-legacy-glow 4s ease-in-out 1.7s infinite;
+  }
+}
+
+/* Stacked layout (tablet/mobile): the marker travels down the left-hand line */
+@media (max-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .fx-roadmap__dot {
+    top: calc(var(--roadmap-progress) * 100%);
+    left: 0.4rem;
+  }
+}
+
+@keyframes fx-dot-pulse {
+  0%, 100% { scale: 1; }
+  50%      { scale: 1.35; }
+}
+@keyframes fx-legacy-glow {
+  0%, 100% { opacity: 0; }
+  50%      { opacity: 1; }
+}
+
+/* ---- Phase 5: Qualification + Booking CTA ---- */
+
+/* Order numbers used for staggering */
+.fx-fit .fit__col:nth-child(1) { --fx-col: 0ms; }
+.fx-fit .fit__col:nth-child(2) { --fx-col: 120ms; }
+.fx-fit .fit__list li:nth-child(1) { --fx-i: 0; }
+.fx-fit .fit__list li:nth-child(2) { --fx-i: 1; }
+.fx-fit .fit__list li:nth-child(3) { --fx-i: 2; }
+.fx-fit .fit__list li { --fx-delay: calc(var(--fx-col, 0ms) + 250ms + var(--fx-i, 0) * 90ms); }
+
+.fx-embed .booking-embed__fields li:nth-child(1) { --fx-i: 0; }
+.fx-embed .booking-embed__fields li:nth-child(2) { --fx-i: 1; }
+.fx-embed .booking-embed__fields li:nth-child(3) { --fx-i: 2; }
+.fx-embed .booking-embed__fields li:nth-child(4) { --fx-i: 3; }
+.fx-embed .booking-embed__fields li:nth-child(5) { --fx-i: 4; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Qualification: lines appear in sequence, marks pop in */
+  .fx-ready .fx-fit .fit__list li {
+    opacity: 0;
+    translate: 0 0.5rem;
+    transition:
+      opacity 0.45s var(--ease-out) var(--fx-delay),
+      translate 0.45s var(--ease-out) var(--fx-delay);
+  }
+  .fx-ready .fx-fit .fit__list li::before {
+    scale: 0;
+    transition: scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--fx-delay) + 120ms);
+  }
+  .fx-ready .fx-fit.is-in .fit__list li { opacity: 1; translate: 0 0; }
+  .fx-ready .fx-fit.is-in .fit__list li::before { scale: 1; }
+
+  /* Booking: field chips appear one by one */
+  .fx-ready .fx-embed .booking-embed__fields li {
+    opacity: 0;
+    translate: 0 0.5rem;
+    transition:
+      opacity 0.4s var(--ease-out) calc(200ms + var(--fx-i) * 70ms),
+      translate 0.4s var(--ease-out) calc(200ms + var(--fx-i) * 70ms);
+  }
+  .fx-ready .fx-embed.is-in .booking-embed__fields li { opacity: 1; translate: 0 0; }
+
+  /* Booking: button scales in, then a slow gold glow */
+  .fx-ready .fx-cta .btn {
+    position: relative;
+    scale: 0.96;
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out),
+      scale 0.6s var(--ease-out) 0.2s;
+  }
+  .fx-ready .fx-cta.is-in .btn { scale: 1; }
+
+  .fx-cta .btn::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    box-shadow: 0 0 1.75rem rgba(225, 190, 127, 0.4);
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+  }
+  .fx-cta.is-in .btn::after { animation: fx-cta-glow 3.5s ease-in-out 0.8s infinite; }
+}
+
+/* Hover (mouse devices only) */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .fx-fit .fit__col {
+    /* keeps the original reveal timing, adds the glow */
+    transition:
+      opacity 0.8s var(--ease-out) var(--reveal-delay, 0ms),
+      translate 0.8s var(--ease-out) var(--reveal-delay, 0ms),
+      border-color var(--duration-base) var(--ease-out),
+      box-shadow var(--duration-base) var(--ease-out);
+  }
+  .fx-fit .fit__col--for:hover { border-color: rgba(225, 190, 127, 0.55); box-shadow: 0 0 2.5rem rgba(225, 190, 127, 0.08); }
+  .fx-fit .fit__col--not:hover { border-color: rgba(229, 109, 147, 0.5);  box-shadow: 0 0 2.5rem rgba(229, 109, 147, 0.08); }
+
+  .fx-cta .btn:hover::after {
+    animation: none;
+    opacity: 1;
+    box-shadow: 0 0 2.5rem rgba(225, 190, 127, 0.55);
+  }
+}
+
+@keyframes fx-cta-glow {
+  0%, 100% { opacity: 0.2; }
+  50%      { opacity: 0.9; }
+}
+
+/* ---- Phase 6: Polish ---- */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Section headings: gold line draws beside the small label */
+  .fx-ready .section__head .eyebrow::before,
+  .fx-ready .section__head--center .eyebrow::after {
+    content: "";
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    vertical-align: middle;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transition: transform 0.7s var(--ease-out) 0.15s;
+  }
+  .fx-ready .section__head .eyebrow::before { margin-right: 0.85rem; transform-origin: left; }
+  .fx-ready .section__head--center .eyebrow::after { margin-left: 0.85rem; transform-origin: right; }
+  .fx-ready .section__head.is-in .eyebrow::before,
+  .fx-ready .section__head.is-in .eyebrow::after { transform: scaleX(1); }
+
+  /* Footer quote: words appear one after another */
+  .site-footer__quote .fx-word {
+    display: inline-block;
+    opacity: 0;
+    translate: 0 0.6rem;
+    transition:
+      opacity 0.5s var(--ease-out) calc(var(--w) * 70ms),
+      translate 0.5s var(--ease-out) calc(var(--w) * 70ms);
+  }
+  .site-footer__quote.is-in .fx-word { opacity: 1; translate: 0 0; }
+
+  /* Scroll progress line at the top of the screen (browsers without support ignore it) */
+  @supports (animation-timeline: scroll()) {
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 150;
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-burgundy-light), var(--color-gold));
+      transform: scaleX(0);
+      transform-origin: left;
+      pointer-events: none;
+      animation: fx-scroll-progress auto linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+@keyframes fx-scroll-progress { to { transform: scaleX(1); } }
+
+/* ---- Phase 7: Premium interactions ---- */
+
+/* 1. Cursor spotlight (the glow element is created by JavaScript) */
+.fx-spot-host { position: relative; isolation: isolate; }
+.fx-spot {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+  background: radial-gradient(
+    16rem circle at var(--fx-mx, 50%) var(--fx-my, 50%),
+    rgba(225, 190, 127, 0.13),
+    transparent 70%
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .fx-spot-host:hover > .fx-spot { opacity: 1; }
+}
+
+/* 2. Button shine on hover */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn {
+    background-image:
+      linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.22) 50%, transparent 60%),
+      linear-gradient(135deg, var(--color-burgundy-light), var(--color-burgundy));
+    background-size: 250% 100%, 100% 100%;
+    background-position: 150% 0, 0 0;
+    background-repeat: no-repeat;
+  }
+  .btn:hover { animation: fx-btn-shine 0.9s ease-out; }
+}
+
+/* 3. Header: entrance on load + link underline on hover */
+@media (prefers-reduced-motion: no-preference) {
+  .site-header__logo { animation: fx-drop 0.6s var(--ease-out) 0.1s both; }
+}
+@media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+  .site-nav__list li,
+  .site-nav .btn { animation: fx-drop 0.6s var(--ease-out) both; }
+  .site-nav__list li:nth-child(1) { animation-delay: 0.2s; }
+  .site-nav__list li:nth-child(2) { animation-delay: 0.26s; }
+  .site-nav__list li:nth-child(3) { animation-delay: 0.32s; }
+  .site-nav__list li:nth-child(4) { animation-delay: 0.38s; }
+  .site-nav__list li:nth-child(5) { animation-delay: 0.44s; }
+  .site-nav .btn { animation-delay: 0.52s; }
+
+  .site-nav__list a { position: relative; }
+  .site-nav__list a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-out);
+  }
+  .site-nav__list a:hover::after,
+  .site-nav__list a:focus-visible::after { transform: scaleX(1); }
+}
+
+/* 4. Hero: slow shimmer across "Trust does." */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__title .text-gold .split-word__inner {
+      background: linear-gradient(100deg, var(--color-gold) 40%, #fff3d6 50%, var(--color-gold) 60%) 100% 0 / 300% 100% no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: fx-shimmer 6s ease-in-out 3s infinite;
+    }
+  }
+}
+
+@keyframes fx-btn-shine {
+  from { background-position: 150% 0, 0 0; }
+  to   { background-position: -150% 0, 0 0; }
+}
+@keyframes fx-drop {
+  from { opacity: 0; translate: 0 -0.75rem; }
+  to   { opacity: 1; translate: 0 0; }
+}
+@keyframes fx-shimmer {
+  0%        { background-position: 100% 0; }
+  45%, 100% { background-position: 0 0; }
+}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FrameX Prime | 90-Day Video Funnels for Dubai Real Estate Agents</title>
+  <meta name="description"
+    content="Engineering 90-Day Video Funnels for top-tier real estate agents in Dubai. Views don't close deals. Trust does.">
+  <meta name="theme-color" content="#060D0D">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FrameX Prime | Views don't close deals. Trust does.">
+  <meta property="og:description" content="Engineering 90-Day Video Funnels for top-tier real estate agents in Dubai.">
+  <!-- PLACEHOLDER: add a 1200x630 social image -->
+  <meta property="og:image" content="assets/images/Logo01">
+
+  <!-- PLACEHOLDER: add favicon files -->
+  <link rel="icon" href="assets/images/Logo02.jpeg" type="image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script>
+    /* Lets CSS hide reveal elements only when JS is running. Failsafe shows content if script.js never starts. */
+    document.documentElement.classList.add("js");
+    setTimeout(function () {
+      if (!document.documentElement.hasAttribute("data-ready")) document.documentElement.classList.remove("js");
+    }, 4000);
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- 1. HEADER -->
+  <header class="site-header" data-header>
+    <div class="container site-header__inner">
+      <a class="site-header__logo" href="#hero" aria-label="FrameX Prime home">
+        <img src="assets/images/Logo01.jpeg" alt="FrameX Prime" width="160" height="40" fetchpriority="high"
+          decoding="async">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"
+        data-nav-toggle>
+        <span class="nav-toggle__label">Menu</span>
+        <span class="nav-toggle__bars" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="primary-nav" aria-label="Primary" data-nav>
+        <ul class="site-nav__list">
+          <li><a href="#vsl">The Trust Gap</a></li>
+          <li><a href="#system">System</a></li>
+          <li><a href="#vision">1-Year Vision</a></li>
+          <li><a href="#evidence">Evidence</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <a class="btn btn--sm" href="#book">Book Your Free Strategy Call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- 2. HERO -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+
+      <!-- FrameX hero visual: floating frame stack (decorative) -->
+      <div class="fx-visual" aria-hidden="true">
+        <div class="fx-visual__glow"></div>
+
+        <div class="fx-tilt">
+          <div class="fx-float">
+
+            <div class="fx-layer fx-layer--back">
+              <div class="fx-card">
+                <span class="fx-card__line"></span>
+                <span class="fx-card__line fx-card__line--short"></span>
+              </div>
+            </div>
+
+            <div class="fx-layer fx-layer--mid">
+              <div class="fx-card">
+                <span class="fx-card__line"></span>
+                <span class="fx-card__line fx-card__line--short"></span>
+              </div>
+            </div>
+
+            <div class="fx-layer fx-layer--front">
+              <div class="fx-card fx-card--front">
+                <span class="fx-card__edge"></span>
+                <div class="fx-card__face">
+                  <span class="fx-card__corner fx-card__corner--tl"></span>
+                  <span class="fx-card__corner fx-card__corner--tr"></span>
+                  <span class="fx-card__corner fx-card__corner--bl"></span>
+                  <span class="fx-card__corner fx-card__corner--br"></span>
+                  <span class="fx-card__play"></span>
+                  <span class="fx-card__track"><span class="fx-card__bar"></span></span>
+                  <span class="fx-card__sheen"></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <span class="fx-dust" style="--l:8%;--t:78%;--d:9s;--delay:0s"></span>
+        <span class="fx-dust" style="--l:22%;--t:88%;--d:11s;--delay:2s"></span>
+        <span class="fx-dust" style="--l:46%;--t:92%;--d:10s;--delay:4s"></span>
+        <span class="fx-dust" style="--l:68%;--t:84%;--d:12s;--delay:1s"></span>
+        <span class="fx-dust" style="--l:84%;--t:90%;--d:9.5s;--delay:5s"></span>
+        <span class="fx-dust" style="--l:92%;--t:70%;--d:13s;--delay:3s"></span>
+      </div>
+
+      <div class="container hero__inner">
+        <p class="eyebrow" data-hero="eyebrow">FrameX Prime · Dubai</p>
+        <h1 class="hero__title" id="hero-title" data-hero-split>
+          Views don’t close deals. <span class="text-gold">Trust does.</span>
+        </h1>
+        <p class="hero__lead" data-hero="lead">Engineering 90-Day Video Funnels for top-tier real estate agents in
+          Dubai.</p>
+        <a class="btn" href="#book" data-hero="cta">
+          Book Your Free Strategy Call
+          <span class="btn__icon" aria-hidden="true">↓</span>
+        </a>
+        <p class="hero__cue" aria-hidden="true" data-hero="cue">Scroll to booking</p>
+      </div>
+    </section>
+
+    <!-- 3. VSL -->
+    <section class="section" id="vsl" aria-labelledby="vsl-title">
+      <div class="container">
+        <header class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">Watch First · 3–5 min</p>
+          <h2 class="section__title" id="vsl-title">The Trust Gap, explained.</h2>
+        </header>
+
+        <!-- PLACEHOLDER: replace this block with the real video (<video> or embed) -->
+        <div class="video-slot fx-video" data-placeholder data-reveal data-fx-inview>
+          <button class="video-slot__play" type="button" aria-disabled="true"
+            aria-label="Play video (video not yet supplied)">
+            <p class="video-slot__label">Video placeholder · VSL to be supplied</p>
+        </div>
+
+        <ol class="vsl-points" data-reveal>
+          <li><span class="vsl-points__num">01</span> The Trust Gap</li>
+          <li><span class="vsl-points__num">02</span> Standard property tours vs. engineered authority</li>
+          <li><span class="vsl-points__num">03</span> Capturing the Untapped 97%</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 4. THE FRAMEX SYSTEM -->
+    <section class="section fx-system" id="system" aria-labelledby="system-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow">The Engine</p>
+          <h2 class="section__title" id="system-title">The 90-Day Video Funnel</h2>
+          <p class="section__lead">Every video asset is mathematically mapped to a 3-stage psychological pipeline.</p>
+        </header>
+
+        <ol class="pipeline fx-pipeline" data-fx-inview>
+          <li class="pipeline__stage pipeline__stage--tofu" data-reveal>
+            <p class="pipeline__code">TOFU</p>
+            <p class="eyebrow">Attention</p>
+            <h3 class="pipeline__title">The Educator Engine</h3>
+            <p>Stops the scroll and captures massive new audiences using specific hooks.</p>
+          </li>
+          <li class="pipeline__stage pipeline__stage--mofu" data-reveal>
+            <p class="pipeline__code">MOFU</p>
+            <p class="eyebrow">Trust</p>
+            <h3 class="pipeline__title">The Trust Storyteller</h3>
+            <p>Replaces highlight reels with relatable storytelling to build deep belief and position you as the
+              undisputed authority.</p>
+          </li>
+          <li class="pipeline__stage pipeline__stage--bofu" data-reveal>
+            <p class="pipeline__code">BOFU</p>
+            <p class="eyebrow">Conversion</p>
+            <h3 class="pipeline__title">The Magnetic Conversion</h3>
+            <p>Deploys direct offers and precise Calls-To-Action to turn nurtured audiences into paying, high-ticket
+              clients.</p>
+          </li>
+        </ol>
+
+        <div class="avatars">
+          <header class="section__head" data-reveal>
+            <p class="eyebrow">The 4 Buyer Avatars</p>
+            <h3 class="section__subtitle">How Buyers Think</h3>
+          </header>
+          <ul class="avatars__grid fx-avatars">
+            <li class="avatar-card" data-reveal>
+              <span class="avatar-card__num">01</span>
+              <h4 class="avatar-card__title">The Skeptic</h4>
+              <p>Verifiable proof to build undeniable safety.</p>
+            </li>
+            <li class="avatar-card" data-reveal>
+              <span class="avatar-card__num">02</span>
+              <h4 class="avatar-card__title">The Analyst</h4>
+              <p>Hard metrics and specific data for intellectual clarity.</p>
+            </li>
+            <li class="avatar-card" data-reveal>
+              <span class="avatar-card__num">03</span>
+              <h4 class="avatar-card__title">The Executive</h4>
+              <p>Fast, frictionless solutions that save their time.</p>
+            </li>
+            <li class="avatar-card" data-reveal>
+              <span class="avatar-card__num">04</span>
+              <h4 class="avatar-card__title">The Visionary</h4>
+              <p>Prestige, elite status, and future growth.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. THE 1-YEAR VISION -->
+    <section class="section" id="vision" aria-labelledby="vision-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow">12-Month Roadmap</p>
+          <h2 class="section__title" id="vision-title">The 1-Year Vision</h2>
+        </header>
+
+        <ol class="roadmap" data-roadmap>
+          <li class="roadmap__item" data-reveal>
+            <p class="roadmap__months">Months 1–3</p>
+            <h3 class="roadmap__title"><span>Phase 01</span> Foundation</h3>
+            <p class="roadmap__text" data-placeholder>Description to be supplied.</p>
+          </li>
+          <li class="roadmap__item" data-reveal>
+            <p class="roadmap__months">Months 4–6</p>
+            <h3 class="roadmap__title"><span>Phase 02</span> Infrastructure</h3>
+            <p class="roadmap__text" data-placeholder>Description to be supplied.</p>
+          </li>
+          <li class="roadmap__item" data-reveal>
+            <p class="roadmap__months">Months 7–9</p>
+            <h3 class="roadmap__title"><span>Phase 03</span> Amplifier</h3>
+            <p class="roadmap__text" data-placeholder>Description to be supplied.</p>
+          </li>
+          <li class="roadmap__item roadmap__item--final" data-reveal>
+            <p class="roadmap__months">Months 10–12</p>
+            <h3 class="roadmap__title"><span>Phase 04</span> Legacy</h3>
+            <p class="roadmap__text" data-placeholder>Description to be supplied.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 6. THE EVIDENCE -->
+    <section class="section" id="evidence" aria-labelledby="evidence-title">
+      <div class="container">
+        <header class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">The Evidence</p>
+          <h2 class="section__title" id="evidence-title">Our Blueprint in Action</h2>
+          <p class="section__lead">Case studies, testimonials and ROI metrics — coming soon.</p>
+        </header>
+
+        <ul class="evidence__grid fx-evidence" data-fx-inview>
+          <li class="placeholder-card" data-placeholder data-reveal>
+            <p class="eyebrow">Case Study</p>
+            <div class="placeholder-card__box">Image / video slot</div>
+          </li>
+          <li class="placeholder-card" data-placeholder data-reveal>
+            <p class="eyebrow">Testimonial</p>
+            <div class="placeholder-card__box">Portrait + quote slot</div>
+          </li>
+          <li class="placeholder-card" data-placeholder data-reveal>
+            <p class="eyebrow">ROI Metrics</p>
+            <div class="placeholder-card__box">Data slot</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. QUALIFICATION -->
+    <section class="section" id="qualification" aria-labelledby="qualification-title">
+      <div class="container">
+        <header class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">Qualification</p>
+          <h2 class="section__title" id="qualification-title">Is FrameX Prime right for you?</h2>
+        </header>
+
+        <div class="fit fx-fit" data-fx-inview>
+          <div class="fit__col fit__col--for" data-reveal>
+            <h3 class="eyebrow">This is for</h3>
+            <ul class="fit__list">
+              <li>Elite Dubai real estate agents ready to scale</li>
+              <li>Willing to invest in their personal brand</li>
+              <li>Looking for long-term market dominance</li>
+            </ul>
+          </div>
+          <div class="fit__col fit__col--not" data-reveal>
+            <h3 class="eyebrow">This is not for</h3>
+            <ul class="fit__list">
+              <li>Beginners looking for overnight leads</li>
+              <li>Agents seeking cheap property-tour edits</li>
+              <li>Those unwilling to follow a structured system</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. BOOKING (primary conversion) -->
+    <section class="section section--booking" id="book" aria-labelledby="book-title">
+      <div class="container">
+        <header class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">Book Your Call</p>
+          <h2 class="section__title" id="book-title">Book Your Free Strategy Call</h2>
+        </header>
+
+        <!-- PLACEHOLDER: GoHighLevel / Calendly embed goes inside [data-booking-embed] -->
+        <div class="booking-embed fx-embed" data-booking-embed data-placeholder data-reveal data-fx-inview>
+          <p class="eyebrow">Calendar embed placeholder</p>
+          <p>The booking calendar will appear here. The embed collects the required details:</p>
+          <ul class="booking-embed__fields">
+            <li>Name</li>
+            <li>Email</li>
+            <li>Phone Number</li>
+            <li>Current Monthly Revenue</li>
+            <li>What is your biggest marketing challenge right now?</li>
+          </ul>
+        </div>
+
+        <p class="booking__cta fx-cta" data-reveal data-fx-inview>
+          <a class="btn" href="#book" data-booking-link>
+            Book Your Free Strategy Call
+            <span class="btn__icon" aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- 9. FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container container--narrow">
+        <header class="section__head section__head--center" data-reveal>
+          <p class="eyebrow">FAQ</p>
+          <h2 class="section__title" id="faq-title">Questions, answered.</h2>
+        </header>
+
+        <div class="faq" data-faq data-reveal>
+          <details class="faq__item" open>
+            <summary class="faq__question">Do I pay for ads?</summary>
+            <div class="faq__answer">
+              <p data-placeholder>Answer to be supplied by client.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">How much time do I need to spend recording?</summary>
+            <div class="faq__answer">
+              <p data-placeholder>Answer to be supplied by client.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question" data-placeholder>[Additional question placeholder]</summary>
+            <div class="faq__answer">
+              <p data-placeholder>Answer to be supplied by client.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question" data-placeholder>[Additional question placeholder]</summary>
+            <div class="faq__answer">
+              <p data-placeholder>Answer to be supplied by client.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 10. FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="site-footer__quote">“Views don’t close deals. Trust does.”</p>
+      <div class="site-footer__row">
+        <a class="site-footer__logo" href="#hero" aria-label="FrameX Prime home">
+          <img src="assets/images/Logo01.jpeg" alt="FrameX Prime" width="140" height="36" loading="lazy">
+        </a>
+        <p>Dubai · © <span data-year>2026</span> FrameX Prime</p>
+        <!-- PLACEHOLDER: add real legal pages when supplied -->
+        <p data-placeholder>Privacy · Terms</p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
