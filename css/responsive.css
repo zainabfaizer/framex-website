@@ -4,159 +4,375 @@
    Breakpoints: 1024 (tablet) · 960 (menu + stacked layouts) · 768 · 480 · 360
    ========================================================================== */
 
+
 /* ---- ≤1024px: small laptop / tablet landscape ---------------------------- */
+
 @media (max-width: 1024px) {
-  .avatars__grid { grid-template-columns: repeat(2, 1fr); }
-  .avatar-card__title { margin-top: var(--space-6); }
-  .pipeline__stage { padding: var(--space-6); }
-  .site-nav { gap: var(--space-5); }
-  .site-nav__list { gap: var(--space-5); }
+    .avatars__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .avatar-card__title {
+        margin-top: var(--space-6);
+    }
+    .pipeline__stage {
+        padding: var(--space-6);
+    }
+    .site-nav {
+        gap: var(--space-5);
+    }
+    .site-nav__list {
+        gap: var(--space-5);
+    }
 }
+
 
 /* ---- ≤960px: mobile menu, stacked pipeline, vertical roadmap ------------- */
+
 @media (max-width: 960px) {
-  /* Header + mobile navigation (toggled via aria-expanded on .nav-toggle) */
-  .site-header:has(.nav-toggle[aria-expanded="true"]) {
-    background: var(--color-background);
-    border-color: var(--color-line);
-  }
-  .site-header__logo img { height: 2.25rem; }
-
-  .nav-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    min-height: 2.75rem;
-    padding: 0 var(--space-2);
-    background: none;
-    border: 0;
-    font-size: var(--fs-small);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .nav-toggle__bars,
-  .nav-toggle__bars::before,
-  .nav-toggle__bars::after {
-    display: block;
-    width: 1.5rem;
-    height: 2px;
-    background: var(--color-gold);
-    transition: transform var(--duration-base) var(--ease-out),
-                background-color var(--duration-fast);
-  }
-  .nav-toggle__bars { position: relative; }
-  .nav-toggle__bars::before,
-  .nav-toggle__bars::after { content: ""; position: absolute; left: 0; }
-  .nav-toggle__bars::before { transform: translateY(-6px); }
-  .nav-toggle__bars::after { transform: translateY(6px); }
-  .nav-toggle[aria-expanded="true"] .nav-toggle__bars { background: transparent; }
-  .nav-toggle[aria-expanded="true"] .nav-toggle__bars::before { transform: rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] .nav-toggle__bars::after { transform: rotate(-45deg); }
-
-  .site-nav {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    right: 0;
-    max-height: calc(100svh - var(--header-height));
-    overflow-y: auto;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-5);
-    padding: var(--space-4) var(--gutter) var(--space-6);
-    background: var(--color-background);
-    border-bottom: 1px solid var(--color-line);
-    /* closed state: hidden from sight AND from keyboard/screen readers */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-0.75rem);
-    pointer-events: none;
-    transition: opacity var(--duration-base) var(--ease-out),
-                transform var(--duration-base) var(--ease-out),
-                visibility 0s linear var(--duration-base);
-  }
-  .nav-toggle[aria-expanded="true"] + .site-nav {
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    pointer-events: auto;
-    transition-delay: 0s;
-  }
-  .site-nav__list { flex-direction: column; gap: 0; font-size: 1.125rem; }
-  .site-nav__list a {
-    display: block;
-    padding-block: var(--space-4);
-    border-bottom: 1px solid var(--color-line-subtle);
-    color: var(--color-text-soft);
-  }
-  .site-nav .btn { width: 100%; justify-content: center; padding-block: 1rem; font-size: 0.95rem; }
-
-  /* Pipeline stacks */
-  .pipeline { grid-template-columns: 1fr; }
-  .pipeline__stage { border-right: 0; border-bottom: 1px solid var(--color-line); }
-  .pipeline__stage:last-child { border-bottom: 0; }
-
-  /* Roadmap becomes a vertical timeline */
-  .roadmap { grid-template-columns: 1fr; gap: var(--space-5); }
-  .roadmap::before,
-  .roadmap::after {
-    top: 0;
-    bottom: 0;
-    left: 0.4rem;
-    right: auto;
-    width: 1px;
-    height: auto;
-  }
-  .roadmap::after { transform: scaleY(var(--roadmap-progress)); transform-origin: top; }
-  .roadmap__item { margin: 0 0 0 2.25rem; }
-  .roadmap__item::before { top: 1.75rem; left: -2.25rem; }
+    /* Header + mobile navigation (toggled via aria-expanded on .nav-toggle) */
+    .site-header:has(.nav-toggle[aria-expanded="true"]) {
+        background: var(--color-background);
+        border-color: var(--color-line);
+    }
+    .site-header__logo img {
+        height: 3.5rem;
+    }
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        min-height: 2.75rem;
+        padding: 0 var(--space-2);
+        background: none;
+        border: 0;
+        font-size: var(--fs-small);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+    .nav-toggle__bars,
+    .nav-toggle__bars::before,
+    .nav-toggle__bars::after {
+        display: block;
+        width: 1.5rem;
+        height: 2px;
+        background: var(--color-gold);
+        transition: transform var(--duration-base) var(--ease-out), background-color var(--duration-fast);
+    }
+    .nav-toggle__bars {
+        position: relative;
+    }
+    .nav-toggle__bars::before,
+    .nav-toggle__bars::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+    .nav-toggle__bars::before {
+        transform: translateY(-6px);
+    }
+    .nav-toggle__bars::after {
+        transform: translateY(6px);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle__bars {
+        background: transparent;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle__bars::before {
+        transform: rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle__bars::after {
+        transform: rotate(-45deg);
+    }
+    .site-nav {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        max-height: calc(100svh - var(--header-height));
+        overflow-y: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-5);
+        padding: var(--space-4) var(--gutter) var(--space-6);
+        background: var(--color-background);
+        border-bottom: 1px solid var(--color-line);
+        /* closed state: hidden from sight AND from keyboard/screen readers */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-0.75rem);
+        pointer-events: none;
+        transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out), visibility 0s linear var(--duration-base);
+    }
+    .nav-toggle[aria-expanded="true"]+.site-nav {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        pointer-events: auto;
+        transition-delay: 0s;
+    }
+    .site-nav__list {
+        flex-direction: column;
+        gap: 0;
+        font-size: 1.125rem;
+    }
+    .site-nav__list a {
+        display: block;
+        padding-block: var(--space-4);
+        border-bottom: 1px solid var(--color-line-subtle);
+        color: var(--color-text-soft);
+    }
+    .site-nav .btn {
+        width: 100%;
+        justify-content: center;
+        padding-block: 1rem;
+        font-size: 0.95rem;
+    }
+    /* Pipeline stacks */
+    .pipeline {
+        grid-template-columns: 1fr;
+    }
+    .pipeline__stage {
+        border-right: 0;
+        border-bottom: 1px solid var(--color-line);
+    }
+    .pipeline__stage:last-child {
+        border-bottom: 0;
+    }
+    /* Roadmap becomes a vertical timeline */
+    .roadmap {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+    .roadmap::before,
+    .roadmap::after {
+        top: 0;
+        bottom: 0;
+        left: 0.4rem;
+        right: auto;
+        width: 1px;
+        height: auto;
+    }
+    .roadmap::after {
+        transform: scaleY(var(--roadmap-progress));
+        transform-origin: top;
+    }
+    .roadmap__item {
+        margin: 0 0 0 2.25rem;
+    }
+    .roadmap__item::before {
+        top: 1.75rem;
+        left: -2.25rem;
+    }
 }
+
 
 /* ---- ≤768px: tablet portrait ---------------------------------------------- */
+
 @media (max-width: 768px) {
-  .section__head { margin-bottom: var(--space-6); }
-
-  .hero { min-height: auto; padding-block: calc(var(--header-height) + var(--space-8)) var(--space-8); }
-  .hero__title { max-width: none; }
-  .hero__cue { display: none; }
-
-  .video-slot { gap: var(--space-4); padding: var(--space-5); text-align: center; }
-  .video-slot__play { width: 4.5rem; height: 4.5rem; }
-  .vsl-points { grid-template-columns: 1fr; gap: var(--space-4); }
-
-  .evidence__grid { grid-template-columns: 1fr; }
-  .placeholder-card { min-height: 14rem; }
-
-  .fit { grid-template-columns: 1fr; }
-  .fit__col { padding: var(--space-6); }
-
-  .booking-embed { padding: var(--space-6); min-height: 0; }
-  .booking-embed__fields { grid-template-columns: 1fr; }
-
-  .site-footer__row { flex-direction: column; text-align: center; }
+    .section__head {
+        margin-bottom: var(--space-6);
+    }
+    .hero {
+        min-height: auto;
+        padding-block: calc(var(--header-height) + var(--space-8)) var(--space-8);
+    }
+    .hero__title {
+        max-width: none;
+    }
+    .hero__cue {
+        display: none;
+    }
+    .video-slot {
+        gap: var(--space-4);
+        padding: var(--space-5);
+        text-align: center;
+    }
+    .video-slot__play {
+        width: 4.5rem;
+        height: 4.5rem;
+    }
+    .vsl-points {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    .evidence__grid {
+        grid-template-columns: 1fr;
+    }
+    .placeholder-card {
+        min-height: 14rem;
+    }
+    .fit {
+        grid-template-columns: 1fr;
+    }
+    .fit__col {
+        padding: var(--space-6);
+    }
+    .booking-embed {
+        padding: var(--space-6);
+        min-height: 0;
+    }
+    .booking-embed__fields {
+        grid-template-columns: 1fr;
+    }
+    .site-footer__row {
+        flex-direction: column;
+        text-align: center;
+    }
 }
+
 
 /* ---- ≤480px: mobile ------------------------------------------------------- */
+
 @media (max-width: 480px) {
-  .avatars__grid { grid-template-columns: 1fr; gap: var(--space-4); }
-  .avatar-card { padding: var(--space-5); }
-  .avatar-card__title { margin-top: var(--space-5); }
-
-  .hero .btn,
-  .booking__cta .btn { width: 100%; justify-content: center; }
-
-  .eyebrow { letter-spacing: 0.2em; }
-  .pipeline__stage { padding: var(--space-5); }
-  .roadmap__item { padding: var(--space-5); }
-  .fit__col { padding: var(--space-5); }
-  .fit__list li { font-size: 1rem; }
-  .video-slot__label { font-size: 0.6875rem; letter-spacing: 0.12em; }
+    .avatars__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+    .avatar-card {
+        padding: var(--space-5);
+    }
+    .avatar-card__title {
+        margin-top: var(--space-5);
+    }
+    .hero .btn,
+    .booking__cta .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .eyebrow {
+        letter-spacing: 0.2em;
+    }
+    .pipeline__stage {
+        padding: var(--space-5);
+    }
+    .roadmap__item {
+        padding: var(--space-5);
+    }
+    .fit__col {
+        padding: var(--space-5);
+    }
+    .fit__list li {
+        font-size: 1rem;
+    }
+    .video-slot__label {
+        font-size: 0.6875rem;
+        letter-spacing: 0.12em;
+    }
 }
 
+
 /* ---- ≤360px: small mobile ------------------------------------------------- */
+
 @media (max-width: 360px) {
-  :root { --header-height: 4rem; }
-  .site-header__logo img { height: 2rem; }
-  .nav-toggle__label { display: none; } /* icon-only; the button keeps its accessible name via aria-label in JS/HTML */
-  .btn { padding: 1rem 1.25rem; font-size: 0.875rem; }
+     :root {
+        --header-height: 4rem;
+    }
+    .site-header__logo img {
+        height: 2.5rem;
+    }
+    .nav-toggle__label {
+        display: none;
+    }
+    /* icon-only; the button keeps its accessible name via aria-label in JS/HTML */
+    .btn {
+        padding: 1rem 1.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+
+/* ---- Funnel on tablet and mobile: tiers become narrowing bands ---- */
+
+@media (max-width: 960px) {
+    .pipeline .pipeline__stage {
+        grid-template-columns: 1fr;
+        padding: 0 0 var(--space-6);
+    }
+    .pipeline__stage--tofu {
+        --tier-top: 100%;
+        --tier-bottom: 82%;
+    }
+    .pipeline__stage--mofu {
+        --tier-top: 82%;
+        --tier-bottom: 64%;
+    }
+    .pipeline__stage--bofu {
+        --tier-top: 64%;
+        --tier-bottom: 46%;
+    }
+    .pipeline .pipeline__code {
+        grid-row: auto;
+        min-height: 0;
+        height: 4rem;
+        margin-bottom: var(--space-5);
+    }
+    .pipeline .pipeline__stage .eyebrow,
+    .pipeline .pipeline__title,
+    .pipeline .pipeline__title+p {
+        grid-column: 1;
+        grid-row: auto;
+        margin-inline: var(--space-6);
+    }
+    .pipeline .pipeline__stage .eyebrow {
+        margin-top: 0;
+    }
+    .pipeline .pipeline__title+p {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .pipeline .pipeline__stage .eyebrow,
+    .pipeline .pipeline__title,
+    .pipeline .pipeline__title+p {
+        margin-inline: var(--space-5);
+    }
+}
+
+
+/* ---- Packages: tablet and mobile ---- */
+
+@media (max-width: 960px) {
+    .packages__grid {
+        grid-template-columns: 1fr;
+    }
+    .package-card {
+        padding: var(--space-6);
+    }
+    .deliverables {
+        padding: var(--space-6);
+    }
+    .deliverables__list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .deliverables {
+        padding: var(--space-5);
+    }
+    .deliverables__list {
+        grid-template-columns: 1fr;
+    }
+    .packages__cta .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* ---- Booking form: tablet and mobile ---- */
+
+@media (max-width: 960px) {
+    .booking__layout {
+        grid-template-columns: 1fr;
+    }
+    .booking-form {
+        padding: var(--space-6);
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-form {
+        padding: var(--space-5);
+    }
 }

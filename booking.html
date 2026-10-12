@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Your Free Strategy Call | FrameX Prime</title>
+    <meta name="description" content="Choose a date and time for your free FrameX Prime strategy call.">
+    <meta name="theme-color" content="#060D0D">
+    <meta name="color-scheme" content="dark">
+    <!-- Prototype page: remove the next line when the real booking flow goes live -->
+    <meta name="robots" content="noindex">
+    <link rel="icon" href="assets/images/Logo02.jpeg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/booking-flow.css">
+    <script src="js/config.js" defer></script>
+    <script src="js/flow.js" defer></script>
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="flow-header">
+        <div class="container flow-header__inner">
+            <a class="flow-header__logo" href="index.html" aria-label="FrameX Prime home">
+                <img src="assets/images/Logo01.jpeg" alt="FrameX Prime" width="160" height="40">
+            </a>
+            <a class="flow-header__back" href="index.html#book"><span aria-hidden="true">←</span> Back to FrameX Prime</a>
+        </div>
+    </header>
+
+    <main class="flow-main" id="main" tabindex="-1">
+        <div class="container">
+
+            <header class="flow-intro flow-rise">
+                <p class="eyebrow">Strategy Session</p>
+                <h1 class="flow-title">Book Your Free Strategy Call</h1>
+                <p class="flow-lead">Choose a convenient time to discuss your real estate marketing goals.</p>
+                <p class="flow-note" data-prototype-note>Sample availability · Not a live schedule</p>
+            </header>
+
+            <div class="booking-picker flow-rise" style="--i:1">
+
+                <!-- Date -->
+                <section class="picker-card" aria-labelledby="date-title">
+                    <h2 class="picker-card__title" id="date-title">Select a Date</h2>
+                    <div class="cal__head">
+                        <p class="cal__month" id="cal-month" aria-live="polite"></p>
+                        <div class="cal__nav">
+                            <button class="cal__navbtn" type="button" data-cal-prev aria-label="Previous month">‹</button>
+                            <button class="cal__navbtn" type="button" data-cal-next aria-label="Next month">›</button>
+                        </div>
+                    </div>
+                    <div class="cal__weekdays" aria-hidden="true">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                    <div class="cal__grid" role="group" aria-labelledby="cal-month" data-cal-grid></div>
+                    <ul class="cal__legend">
+                        <li><span class="cal__swatch cal__swatch--available"></span> Available</li>
+                        <li><span class="cal__swatch cal__swatch--selected"></span> Selected</li>
+                        <li><span class="cal__swatch"></span> Unavailable</li>
+                    </ul>
+                </section>
+
+                <!-- Time + meeting type -->
+                <section class="picker-card" aria-labelledby="time-title">
+                    <div class="picker-card__row">
+                        <h2 class="picker-card__title" id="time-title">Available Times</h2>
+                        <p class="picker-card__date" data-date-short aria-live="polite"></p>
+                    </div>
+                    <p class="picker-card__sub" data-time-hint>Select a date to see times.</p>
+                    <div class="slots" role="group" aria-label="Available times" data-slots></div>
+                    <p class="picker-card__fine">All times shown in Gulf Standard Time (GST, UTC+4)</p>
+
+                    <hr class="picker-card__divider">
+
+                    <h2 class="picker-card__title">Meeting Type</h2>
+                    <div class="meeting" role="radiogroup" aria-label="Meeting type">
+                        <label class="meeting__card">
+              <input type="radio" name="meeting" value="online" data-label="Online Meeting" checked>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3z"/></svg>
+              <span class="meeting__text"><strong>Online Meeting</strong><small>Meet virtually from anywhere.</small></span>
+              <span class="meeting__check" aria-hidden="true"></span>
+            </label>
+                        <label class="meeting__card">
+              <input type="radio" name="meeting" value="coffee" data-label="Coffee Meeting">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9h12v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M16 10h2a2 2 0 0 1 0 4h-2"/><path d="M7 3v2M11 3v2"/></svg>
+              <span class="meeting__text"><strong>Coffee Meeting</strong><small>Meet in person over coffee.</small></span>
+              <span class="meeting__check" aria-hidden="true"></span>
+            </label>
+                    </div>
+                    <p class="picker-card__fine">Meeting link will be provided in your confirmation email.</p>
+                </section>
+            </div>
+
+            <!-- Summary -->
+            <section class="booking-summary flow-rise" style="--i:2" aria-labelledby="summary-title">
+                <div>
+                    <div class="booking-summary__top">
+                        <h2 class="picker-card__title" id="summary-title">Your Booking</h2>
+                        <p class="booking-summary__state" data-state aria-live="polite">Choose a date and time</p>
+                    </div>
+                    <dl class="booking-summary__list">
+                        <div><dt>Date</dt>
+                            <dd data-out-date>—</dd>
+                        </div>
+                        <div><dt>Time</dt>
+                            <dd data-out-time>—</dd>
+                        </div>
+                        <div><dt>Meeting</dt>
+                            <dd data-out-meeting>Online Meeting</dd>
+                        </div>
+                        <div><dt>Timezone</dt>
+                            <dd>GST · UTC+4</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="booking-summary__action">
+                    <button class="btn" type="button" data-confirm disabled>Confirm Booking <span class="btn__icon" aria-hidden="true">→</span></button>
+                    <p class="picker-card__fine">Your appointment details will be emailed to you once your booking is confirmed.</p>
+                    <p class="picker-card__fine booking-summary__proto" data-prototype-note>Prototype only: nothing is booked, saved or sent.</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="flow-footer">
+        <div class="container flow-footer__inner">
+            <a class="flow-footer__logo" href="index.html" aria-label="FrameX Prime home">
+                <img src="assets/images/Logo01.jpeg" alt="FrameX Prime" width="140" height="36" loading="lazy">
+            </a>
+            <p>Dubai · © <span data-year>2026</span> FrameX Prime</p>
+            <p data-placeholder>Privacy</p>
+        </div>
+    </footer>
+</body>
+
+</html>
